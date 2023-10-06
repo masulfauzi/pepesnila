@@ -51,6 +51,7 @@ class AjuanController extends Controller
 
 	public function index_admin(Request $request, String $id_status_ajuan = '25e33720-6db4-45c6-aa32-8a790c0a88bd')
 	{
+		// dd($request);
 		$query = Ajuan::join('alumni', 'alumni.id', 'ajuan.id_alumni')->where('id_status_ajuan', $id_status_ajuan);
 
 		if(session('active_role')['id'] == 'a5086fe7-87c2-4b3a-82bb-e71c5154faa4')
