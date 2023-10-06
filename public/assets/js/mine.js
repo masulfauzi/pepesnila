@@ -13,6 +13,21 @@ function deleteConfirm(url){
 	});
 }
 
+function buttonConfirm(url){
+	swal({
+		title: "Apakah Anda yakin?",
+		text: "Data tidak dapat dikembalikan.",
+		icon: "warning",
+		buttons: true,
+		dangerMode: true,
+	})
+	.then((willDelete) => {
+		if (willDelete) {
+			window.location.href = url;
+		}
+	});
+}
+
 function loadDatePicker(element){
 	if(element == '.datepicker'){
 		comp = {

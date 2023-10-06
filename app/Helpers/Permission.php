@@ -14,6 +14,7 @@ class Permission
 {
 	public static function can($route)
 	{
+		// dd(session('privileges'));
 		$elm = explode('.', $route);
 		$menu = reset($elm);
 		$action = end($elm);

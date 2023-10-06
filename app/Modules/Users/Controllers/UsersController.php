@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Modules\Role\Models\Role;
 use App\Modules\Users\Models\Users;
 use App\Http\Controllers\Controller;
+use App\Modules\Satpen\Models\Satpen;
 use App\Modules\UserRole\Models\UserRole;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,12 +29,15 @@ class UsersController extends Controller
 	public function create()
 	{
 		$roles = Role::all()->pluck('role', 'id');
+		$satpen = Satpen::all()->pluck('satpen', 'id');
+		$satpen->prepend('-PIIH SALAH SATU-', '');
 		$data['forms'] = array(
 			'name' => ['Name', Form::text("name", old('name'), ["class" => "form-control","placeholder" => "", "required" => "required"])],
 			'username' => ['Username', Form::text("username", old('username'), ["class" => "form-control","placeholder" => "", "required" => "required"])],
 			'email' => ['Email', Form::text("email", old('email'), ["class" => "form-control","placeholder" => "", "required" => "required"])],
 			'password' => ['Password', Form::password("password", ["class" => "form-control","placeholder" => "", "required" => "required"])],
-			'identitas' => ['Kode Identitas', Form::text("identitas", old('identitas'), ["class" => "form-control", "placeholder" => "NIM,NIP,NRP,NIK,dll", "required" => "required"])],
+			'identitas' => ['Kode Identitas', Form::text("identitas", old('identitas'), ["class" => "form-control"])],
+			'id_satpen' => ['Satuan Pendidikan', Form::select("id_satpen", $satpen, null, ["class" => "form-control select2","placeholder" => ""])],
 			'roles' => ['Role', Form::select("roles[]", $roles, null, ["class" => "form-control multi-select2","placeholder" => "", "required" => "required"])],
 		);
 		return view('Users::form_create', array_merge($data, ['title' => $this->title]));
@@ -46,7 +50,7 @@ class UsersController extends Controller
 			'username' => 'required|unique:users,username',
 			'email' => 'required|email',
 			'password' => 'required',
-			'identitas' => 'required|unique:users,identitas',
+			// 'identitas' => 'required|unique:users,identitas',
 			'roles' => 'required|array',
 		]);
 
@@ -56,6 +60,7 @@ class UsersController extends Controller
 		$users->email = $request->input("email");
 		$users->password = bcrypt($request->input("password"));
 		$users->identitas = $request->input("identitas");
+		$users->id_satpen = $request->input("id_satpen");
 		$users->created_by = Auth::id();
 		$users->save();
 

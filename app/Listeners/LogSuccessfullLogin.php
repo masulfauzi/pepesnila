@@ -44,11 +44,15 @@ class LogSuccessfullLogin
                                 return [$item['module'] => $item->only(['create', 'read', 'show', 'update', 'delete', 'show_menu'])];
                             });
 
+            // dd($privileges->all());
+
             // store to session
             session(['menus' => $menus]);
             session(['roles' => $roles->pluck('role', 'id')->all()]);
             session(['privileges' => $privileges->all()]);
-            session(['active_role' => $active_role]);      
+            session(['active_role' => $active_role]);  
+            
+            // dd(session('privileges'));
         } catch (\Throwable $th) {
             $this->logout();
         }

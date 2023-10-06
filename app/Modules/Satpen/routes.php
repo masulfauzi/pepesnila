@@ -1,0 +1,15 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Modules\Satpen\Controllers\SatpenController;
+
+Route::controller(SatpenController::class)->middleware(['web','auth'])->name('satpen.')->group(function(){
+	Route::get('/satpen', 'index')->name('index');
+	Route::get('/satpen/data', 'data')->name('data.index');
+	Route::get('/satpen/create', 'create')->name('create');
+	Route::post('/satpen', 'store')->name('store');
+	Route::get('/satpen/{satpen}', 'show')->name('show');
+	Route::get('/satpen/{satpen}/edit', 'edit')->name('edit');
+	Route::patch('/satpen/{satpen}', 'update')->name('update');
+	Route::get('/satpen/{satpen}/delete', 'destroy')->name('destroy');
+});
