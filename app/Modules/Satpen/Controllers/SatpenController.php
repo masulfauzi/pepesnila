@@ -117,18 +117,21 @@ class SatpenController extends Controller
 
 		$ref_kelompok = Kelompok::all()->pluck('kelompok','id');
 		$ref_status_sekolah = StatusSekolah::all()->pluck('status_sekolah','id');
+
+		$ref_kelompok->prepend('-PILIH SALAH SATU-', '');
+		$ref_status_sekolah->prepend('-PILIH SALAH SATU-', '');
 		
 		$data['forms'] = array(
-			'id_kelompok' => ['Kelompok', Form::select("id_kelompok", $ref_kelompok, null, ["class" => "form-control select2"]) ],
-			'id_status_sekolah' => ['Status Sekolah', Form::select("id_status_sekolah", $ref_status_sekolah, null, ["class" => "form-control select2"]) ],
+			'id_kelompok' => ['Kelompok', Form::select("id_kelompok", $ref_kelompok, $data['satpen']->id_kelompok, ["class" => "form-control select2"]) ],
+			'id_status_sekolah' => ['Status Sekolah', Form::select("id_status_sekolah", $ref_status_sekolah, $data['satpen']->id_status_sekolah, ["class" => "form-control select2"]) ],
 			'satpen' => ['Satpen', Form::text("satpen", $satpen->satpen, ["class" => "form-control","placeholder" => "", "id" => "satpen"]) ],
 			'yayasan' => ['Yayasan', Form::text("yayasan", $satpen->yayasan, ["class" => "form-control","placeholder" => "", "id" => "yayasan"]) ],
 			'alamat' => ['Alamat', Form::textarea("alamat", $satpen->alamat, ["class" => "form-control rich-editor"]) ],
 			'npsn' => ['Npsn', Form::text("npsn", $satpen->npsn, ["class" => "form-control","placeholder" => "", "id" => "npsn"]) ],
 			'nss' => ['Nss', Form::text("nss", $satpen->nss, ["class" => "form-control","placeholder" => "", "id" => "nss"]) ],
-			'nama_ks' => ['Nama Ks', Form::text("nama_ks", $satpen->nama_ks, ["class" => "form-control","placeholder" => "", "id" => "nama_ks"]) ],
-			'nip_ks' => ['Nip Ks', Form::text("nip_ks", $satpen->nip_ks, ["class" => "form-control","placeholder" => "", "id" => "nip_ks"]) ],
-			'no_telp' => ['No Telp', Form::text("no_telp", $satpen->no_telp, ["class" => "form-control","placeholder" => "", "id" => "no_telp"]) ],
+			'nama_ks' => ['Nama Kepala Sekolah', Form::text("nama_ks", $satpen->nama_ks, ["class" => "form-control","placeholder" => "", "id" => "nama_ks"]) ],
+			'nip_ks' => ['Nip Kepala Sekolah', Form::text("nip_ks", $satpen->nip_ks, ["class" => "form-control","placeholder" => "", "id" => "nip_ks"]) ],
+			'no_telp' => ['No Telp. Sekolah', Form::text("no_telp", $satpen->no_telp, ["class" => "form-control","placeholder" => "", "id" => "no_telp"]) ],
 			
 		);
 
@@ -143,12 +146,12 @@ class SatpenController extends Controller
 			'id_kelompok' => 'required',
 			'id_status_sekolah' => 'required',
 			'satpen' => 'required',
-			'yayasan' => 'required',
+			// 'yayasan' => 'required',
 			'alamat' => 'required',
 			'npsn' => 'required',
-			'nss' => 'required',
+			// 'nss' => 'required',
 			'nama_ks' => 'required',
-			'nip_ks' => 'required',
+			// 'nip_ks' => 'required',
 			'no_telp' => 'required',
 			
 		]);
