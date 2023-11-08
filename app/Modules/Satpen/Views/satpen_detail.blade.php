@@ -31,11 +31,11 @@
                 <div class="row">
                     <div class="col-lg-10 offset-lg-2">
                         <div class="row">
-                            <div class='col-lg-2'><p>Kelompok</p></div><div class='col-lg-10'><p class='fw-bold'>{{ $satpen->kelompok->id }}</p></div>
-									<div class='col-lg-2'><p>Status Sekolah</p></div><div class='col-lg-10'><p class='fw-bold'>{{ $satpen->statusSekolah->id }}</p></div>
+                            <div class='col-lg-2'><p>Kelompok</p></div><div class='col-lg-10'><p class='fw-bold'>{{ $satpen->kelompok->kelompok }}</p></div>
+									<div class='col-lg-2'><p>Status Sekolah</p></div><div class='col-lg-10'><p class='fw-bold'>{{ $satpen->statusSekolah->status_sekolah }}</p></div>
 									<div class='col-lg-2'><p>Satpen</p></div><div class='col-lg-10'><p class='fw-bold'>{{ $satpen->satpen }}</p></div>
 									<div class='col-lg-2'><p>Yayasan</p></div><div class='col-lg-10'><p class='fw-bold'>{{ $satpen->yayasan }}</p></div>
-									<div class='col-lg-2'><p>Alamat</p></div><div class='col-lg-10'><p class='fw-bold'>{{ $satpen->alamat }}</p></div>
+									<div class='col-lg-2'><p>Alamat</p></div><div class='col-lg-10'><p class='fw-bold'>{!! $satpen->alamat !!}</p></div>
 									<div class='col-lg-2'><p>Npsn</p></div><div class='col-lg-10'><p class='fw-bold'>{{ $satpen->npsn }}</p></div>
 									<div class='col-lg-2'><p>Nss</p></div><div class='col-lg-10'><p class='fw-bold'>{{ $satpen->nss }}</p></div>
 									<div class='col-lg-2'><p>Nama Ks</p></div><div class='col-lg-10'><p class='fw-bold'>{{ $satpen->nama_ks }}</p></div>
