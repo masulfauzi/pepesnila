@@ -26,6 +26,10 @@ class SatpenController extends Controller
 	public function index(Request $request)
 	{
 		$query = Satpen::query();
+		if(session('active_role')['id'] == 'a5086fe7-87c2-4b3a-82bb-e71c5154faa4')
+		{
+			$query->where('id', Auth::user()->id_satpen);
+		}
 		if($request->has('search')){
 			$search = $request->get('search');
 			// $query->where('name', 'like', "%$search%");
