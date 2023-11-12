@@ -11,6 +11,7 @@ use App\Modules\Alumni\Models\Alumni;
 use App\Modules\JenisAjuan\Models\JenisAjuan;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Auth;
 
 class AjuanController extends Controller
@@ -51,7 +52,8 @@ class AjuanController extends Controller
 
 	public function index_admin(Request $request, String $id_status_ajuan = '25e33720-6db4-45c6-aa32-8a790c0a88bd')
 	{
-		// dd($request);
+		// dd();
+		
 		$query = Ajuan::join('alumni', 'alumni.id', 'ajuan.id_alumni')
 						->select('ajuan.*')
 						->where('id_status_ajuan', $id_status_ajuan);
@@ -66,6 +68,7 @@ class AjuanController extends Controller
 			// $query->where('name', 'like', "%$search%");
 		}
 		$data['data'] = $query->paginate(10)->withQueryString();
+		$data['active_route'] = $request->route()->getName();
 
 		$this->log($request, 'melihat halaman manajemen data '.$this->title);
 		return view('Ajuan::ajuan_admin', array_merge($data, ['title' => $this->title]));
@@ -98,7 +101,21 @@ class AjuanController extends Controller
 
 		$data->save();
 
+		$this->log($request, 'Menyetujui ajuan');
 		return redirect()->route('ajuan.admin.index')->with('message_success', 'Data Berhasil Disimpan');
+	}
+
+	public function tolak_ajuan(Request $request)
+	{
+		$data = Ajuan::find($request->input('id'));
+
+		$data->alasan_ditolak = $request->input('alasan_ditolak');
+		$data->id_status_ajuan = 'b641d25c-7121-4355-9734-f79a8b09c27a';
+
+		$data->save();
+
+		$this->log($request, 'Menolak ajuan');
+		return redirect()->back()->with('message_success', 'Data Berhasil Disimpan');
 	}
 
 	public function uploads(Ajuan $ajuan)

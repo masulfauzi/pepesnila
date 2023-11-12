@@ -37,6 +37,11 @@
                                 <td>Nama Alumni</td>
                                 <td>Jenis Ajuan</td>
                                 <td>Status Ajuan</td>
+
+                                @if ($active_route == 'ajuan.admin_ditolak.index')
+                                    <td>Alasan Ditolak</td>
+                                @endif
+                                
 								
                                 <th width="20%">Aksi</th>
                             </tr>
@@ -49,6 +54,10 @@
                                     <td>{{ $item->alumni->nama_alumni }}</td>
                                     <td>{{ $item->jenisAjuan->jenis_ajuan }}</td>
                                     <td><span class="badge bg-primary">{{ $item->statusAjuan->status_ajuan }}</span></td>
+                                    
+                                    @if ($active_route == 'ajuan.admin_ditolak.index')
+                                        <td>{{ $item->alasan_ditolak }}</td>
+                                    @endif
 									
 									
                                     <td>

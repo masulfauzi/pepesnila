@@ -10,6 +10,7 @@ use App\Modules\Kelompok\Models\Kelompok;
 use App\Modules\StatusSekolah\Models\StatusSekolah;
 
 use App\Http\Controllers\Controller;
+use Codedge\Fpdf\Fpdf\Fpdf;
 use Illuminate\Support\Facades\Auth;
 
 class SatpenController extends Controller
@@ -138,6 +139,48 @@ class SatpenController extends Controller
 		$text = 'membuka form edit '.$this->title;//.' '.$satpen->what;
 		$this->log($request, $text, ['satpen.id' => $satpen->id]);
 		return view('Satpen::satpen_update', array_merge($data, ['title' => $this->title]));
+	}
+
+	public function kop_surat(Request $request)
+	{
+		$data['satpen'] = Satpen::find(Auth::user()->id_satpen);
+
+		return view('Satpen::kop_surat', array_merge($data, ['title' => $this->title]));
+
+	}
+
+	public function contoh_surat(Request $request, Satpen $satpen)
+	{
+		$fpdf = new Fpdf();
+
+		$fpdf->SetFont('Arial', 'B', 15);
+        $fpdf->AddPage("L", ['100', '100']);
+        $fpdf->Text(10, 10, "Hello World!");       
+         
+        $fpdf->Output();
+
+        exit;
+	}
+
+	public function simpan_kop_surat(Request $request)
+	{
+		$request->validate([
+            'file' => 'required|mimes:jpg,jpeg,png|max:10240'
+        ]);
+
+		$fileName = time().'.'.$request->file->extension();  
+
+        $request->file->move(public_path('kepala_surat/'), $fileName);
+
+
+		$satpen = Satpen::find(Auth::user()->id_satpen);
+
+		$satpen->kop_surat = $fileName;
+
+		$satpen->save();
+
+		$this->log($request, 'Mengupload kop surat', ['satpen.id' => $satpen->id]);
+		return redirect()->back()->with('message_success', 'Data Berhasil Disimpan');
 	}
 
 	public function update(Request $request, $id)

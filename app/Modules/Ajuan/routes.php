@@ -12,6 +12,8 @@ Route::controller(AjuanController::class)->middleware(['web','auth'])->name('aju
 	Route::get('/ajuan_ditolak', 'ajuan_ditolak')->name('admin_ditolak.index');
 	Route::get('/admin/ajuan/{ajuan}', 'detail_ajuan')->name('admin_lihat.show');
 	Route::get('/admin/ajuan/{ajuan}/{status}', 'ubah_status_ajuan')->name('admin_ubah_status.show');
+	Route::post('/ajuan/tolak/', 'tolak_ajuan')->name('tolak_ajuan.store');
+
 	
 	// route bawaan
 	Route::get('/ajuan', 'index')->name('index');
