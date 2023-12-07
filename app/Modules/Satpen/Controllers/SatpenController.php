@@ -151,11 +151,13 @@ class SatpenController extends Controller
 
 	public function contoh_surat(Request $request, Satpen $satpen)
 	{
-		$fpdf = new Fpdf();
+		$kop = public_path('/kepala_surat/'.$satpen->kop_surat);
+
+		$fpdf = new Fpdf('P','mm','A4');
 
 		$fpdf->SetFont('Arial', 'B', 15);
-        $fpdf->AddPage("L", ['100', '100']);
-        $fpdf->Text(10, 10, "Hello World!");       
+        $fpdf->AddPage();
+		$fpdf->Image($kop, 10,10, 190);      
          
         $fpdf->Output();
 
