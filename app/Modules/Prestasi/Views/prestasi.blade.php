@@ -101,6 +101,19 @@
         </div>
 
     </section>
+    <section class="section">
+        <div class="card">
+            <h6 class="card-header">
+                Grafik Data {{ $title }}
+            </h6>
+            <div class="card-body">
+                <div id="container">
+
+                </div>
+            </div>
+        </div>
+
+    </section>
 </div>
 @endsection
 
@@ -108,4 +121,56 @@
 @endsection
 
 @section('inline-js')
+<script>
+    Highcharts.chart('container', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Jumlah Perolehan Prestasi',
+        align: 'center'
+    },
+    subtitle: {
+        text: '',
+        align: 'left'
+    },
+    xAxis: {
+        categories: [
+            @foreach ($chart as $item)
+                '{{ $item->tahun }}',
+            @endforeach
+        ],
+        crosshair: true,
+        accessibility: {
+            description: 'Countries'
+        }
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Jumlah Prestasi'
+        }
+    },
+    tooltip: {
+        // valueSuffix: ' (1000 MT)'
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+    },
+    series: [
+        {
+            name: 'Jumlah Prestasi',
+            data: [
+                @foreach ($chart as $item)
+                    {{ $item->jml }},
+                @endforeach
+            ]
+        }
+    ]
+});
+
+</script>
 @endsection

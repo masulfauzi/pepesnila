@@ -28,6 +28,12 @@ class PrestasiController extends Controller
 		// dd(session()->get('active_role')['id']);
 
 		$query = Prestasi::query();
+		$chart = $query->clone();
+
+		$data['chart'] = $chart->select('tahun')->selectRaw('count(*) as jml')->groupBy('tahun')->get();
+
+		// dd($chart->select('tahun')->selectRaw('count(*) as jml')->groupBy('tahun')->get());
+
 		if(session()->get('active_role')['id'] == 'a5086fe7-87c2-4b3a-82bb-e71c5154faa4')
 		{
 			$query->whereIdSatpen(Auth::user()->id_satpen);
