@@ -5,6 +5,7 @@ use App\Modules\Ajuan\Controllers\AjuanController;
 
 Route::controller(AjuanController::class)->middleware(['web','auth'])->name('ajuan.')->group(function(){
 	// route custom
+	Route::get('/ajuan/download/{ajuan}', 'download_surat')->name('download_surat.index');
 	Route::get('/ajuan/upload/{ajuan}', 'uploads')->name('upload.index');
 	Route::post('/ajuan/{ajuan}/aksi_upload', 'aksi_upload')->name('aksi_upload.store');
 	Route::get('/ajuan/admin', 'index_admin')->name('admin.index');

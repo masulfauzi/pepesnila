@@ -61,6 +61,9 @@
 									
 									
                                     <td>
+                                        @if ($item->id_status_ajuan == 'd3855fc0-ddaf-426e-a7ca-7e98b7a1d22d')
+                                            <a class="btn btn-outline-primary btn-sm" href="{{ route('ajuan.download_surat.index', $item->id) }}">Download Surat</a>
+                                        @endif
                                         <a href="{{ route('ajuan.admin_lihat.show', $item->id) }}" class="btn btn-sm icon icon-left btn-outline-secondary">Lihat Ajuan</a>
 										
                                     </td>

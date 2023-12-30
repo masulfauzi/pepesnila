@@ -11,6 +11,8 @@ use App\Modules\Alumni\Models\Alumni;
 use App\Modules\JenisAjuan\Models\JenisAjuan;
 
 use App\Http\Controllers\Controller;
+use App\Modules\Satpen\Models\Satpen;
+use Codedge\Fpdf\Fpdf\Fpdf;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -72,6 +74,97 @@ class AjuanController extends Controller
 
 		$this->log($request, 'melihat halaman manajemen data '.$this->title);
 		return view('Ajuan::ajuan_admin', array_merge($data, ['title' => $this->title]));
+	}
+
+	public function download_surat(Request $request, Ajuan $ajuan)
+	{
+		$satpen = Alumni::find($ajuan->id_alumni)->satpen;
+
+		// dd($satpen);
+
+		$kop = public_path('/kepala_surat/'.$satpen->kop_surat);
+
+		$pdf = new Fpdf('P','mm','A4');
+
+		// kop surat
+		$pdf->SetFont('Arial', 'B', 15);
+        $pdf->AddPage();
+		$pdf->Image($kop, 10,10, 190);    
+		
+		// isi surat
+
+		$pdf->Ln(50);
+
+		$pdf->SetFont('Times','B',12);
+		$pdf->MultiCell(190, 6, 'SURAT KETERANGAN PENGGANTI IJAZAH/STTB', '', 'C');
+
+		$pdf->SetFont('Times','',12);
+		$pdf->MultiCell(190, 6, 'Nomor: ......................', '', 'C');
+
+		$pdf->Ln();
+
+		$pdf->MultiCell(190, 6, 'Yang bertanda tangan di bawah ini Kepala Sekolah ...................................................................... Kabupaten/Kota .............................................. Provinsi Jawa Tengah berdasarkan surat keterangan laporan kehilangan dari Kepolisian nomor ......................... tanggal ......................... tahun ........ dan surat pernyataan tanggung jawab mutlak dari pemohon, menerangkan bahwa:', '', 'J');
+
+		$pdf->Ln();
+
+		$pdf->Cell(50, 6, 'Nama', 0);
+		$pdf->Cell(5, 6, ':', 0);
+		$pdf->Cell(50, 6, '.................................................', 0, 1);
+
+		$pdf->Cell(50, 6, 'Tempat dan tanggal lahir', 0);
+		$pdf->Cell(5, 6, ':', 0);
+		$pdf->Cell(50, 6, '.................................................', 0, 1);
+
+		$pdf->Cell(50, 6, 'Nama orang tua', 0);
+		$pdf->Cell(5, 6, ':', 0);
+		$pdf->Cell(50, 6, '.................................................', 0, 1);
+
+		$pdf->Cell(50, 6, 'Sekolah asal', 0);
+		$pdf->Cell(5, 6, ':', 0);
+		$pdf->Cell(50, 6, '.................................................', 0, 1);
+
+		$pdf->Cell(50, 6, 'NIS/NISN', 0);
+		$pdf->Cell(5, 6, ':', 0);
+		$pdf->Cell(50, 6, '.................................................', 0, 1);
+
+		$pdf->Ln();
+
+		$pdf->MultiCell(190, 6, 'adalah pemilik Ijazah/STTB nomor seri ........................................................................... tahun pelajaran ....................................');
+
+		$pdf->Ln();
+
+		$pdf->MultiCell(190, 6, 'Surat keterangan ini dipergunakan sebagai pengganti Ijazah/STTB asli yang hilang.');
+
+		$pdf->Ln();
+
+		$pdf->Cell(120, 6, '');
+		$pdf->Cell(90, 6, 'Semarang, xx xxxxxxxxx 2023', 0, 1);
+
+		$pdf->Cell(120, 6, '');
+		$pdf->Cell(90, 6, 'Kepala Sekolah,', 0, 1);
+
+		$pdf->Ln(20);
+
+		$pdf->Cell(120, 6, '');
+		$pdf->Cell(90, 6, 'xxxxxxxxxxx xxxxxxxxxxxxxx', 0, 1);
+
+		$pdf->Cell(120, 6, '');
+		$pdf->Cell(90, 6, 'NIP. ...........................', 0, 1);
+
+		$pdf->Ln();
+
+		$pdf->MultiCell(190, 6, 'Mengetahui,', 0, 'C');
+		$pdf->MultiCell(190, 6, 'Kepala Cabang Dinas Pendidikan dan Kebudayaan', 0, 'C');
+		$pdf->MultiCell(190, 6, 'Wilayah I Provinsi Jawa Tengah,', 0, 'C');
+
+		$pdf->Ln(20);
+
+		$pdf->MultiCell(190, 6, 'xxxxxxxxxxxxxx xxxxxxxxxxxxxxxx', 0, 'C');
+		$pdf->MultiCell(190, 6, 'NIP. xxxxxxxxxxxxxxxxxxxxxxxxxx', 0, 'C');
+         
+        $pdf->Output();
+
+        exit;
 	}
 
 	public function ajuan_verval(Request $request)
